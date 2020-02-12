@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+ </head>
+ <body>
+    <canvas width="400" height="400"></canvas>
+
+    <script>
+        var canvas = document.querySelector('canvas');
+        var context = canvas.getContext('2d');  
+        context.lineWidth = 3;
+        // 将画布的原点（0,0），移动到(200,200)
+        // 移动原点是为了能让整个心形显示出来
+        context.translate(200,200); 
+
+        // t 代表弧度
+        var t=0;
+        // maxt 代表 t 的最大值
+        var maxt = 2*Math.PI;
+        // vt 代表 t 的增量
+        var vt = 0.01;
+        // 需要循环的次数
+        var maxi = Math.ceil(maxt/vt);
+        // 保存所有点的坐标的数组
+        var pointArr=[];
+        // x 用来暂时保存每次循环得到的 x 坐标
+        var x=0;
+        // y 用来暂时保存每次循环得到的 y 坐标
+        var y=0;
+
+        // 根据方程得到所有点的坐标
+        for(var i=0;i<=maxi;i++){
+            // x=a*(2*sin(t)+sin(2*t))
+            x=50*(2*Math.sin(t)+Math.sin(2*t));
+
+            // y=a*(2*cos(t)+cos(2*t))
+            y=50*(2*Math.cos(t)+Math.cos(2*t));
+            t+=vt;
+            pointArr.push([x,y]); 
+        }
+
+        // 根据点的坐标，画出心形线
+		context.moveTo(pointArr[0][0],pointArr[0][1]);
+        draw();
+        function draw(){
+            context.fillStyle='#c00';
+            // 把每个点连接起来
+            for(var i=1;i<pointArr.length;i++){
+                x = pointArr[i][0];
+                y = pointArr[i][1];
+                context.lineTo(x,y);
+            }
+            context.fill();
+        }
+    </script>
+ </body>
+</html>
